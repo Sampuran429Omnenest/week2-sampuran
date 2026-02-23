@@ -18,6 +18,7 @@ interface DataTableProps<T extends object> {
     rowKey: keyof T;
     onRowClick?: (row: T) => void;
     emptyMessage?: string;
+    filterKey?:keyof T;
 }
 
 function DataTable<T extends object>({
@@ -45,6 +46,7 @@ function DataTable<T extends object>({
             return aValue<bValue ? 1 :-1;
         }
     })
+    
     if (data.length === 0) return <p style={{ textAlign: 'center', padding: 20 }}>{emptyMessage}</p>;
 
     return (

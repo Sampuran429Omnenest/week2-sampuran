@@ -61,7 +61,7 @@ function App() {
       header: 'P&L', 
       render: (v) => {
         const val = Number(v);
-        return <span style={{ color: val >= 0 ? 'green' : 'red' }}>
+        return <span style={{ color: val >= 0 ? 'green' : 'red',fontWeight:'bold'}}>
           {val >= 0 ? '+' : ''}{val.toFixed(2)}
         </span>
       } 
