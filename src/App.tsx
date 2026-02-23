@@ -6,13 +6,13 @@ import  { useState } from 'react';
 import { stocks, trades } from './data/stockData';
  
 // Types
-import type { Stock,Trade } from './types/stock.types';
+import type { Position, Stock,Trade } from './types/stock.types';
  
 // Components
 import StockCard          from './components/StockCard';
 import PortfolioSummary   from './components/PortfolioSummary';
 import SearchBar          from './components/SearchBar';
-import DataTable          from './components/DataTable';
+import DataTable, { type Column }          from './components/DataTable';
 import TradeForm          from './components/TradeForm';
  
 function App() {
@@ -38,7 +38,68 @@ function App() {
     };
     setTradeHistory(prev => [newTrade, ...prev]);
   };
- 
+  interface GroupedTrade {
+    symbol: string;
+    quantity: number;
+    avgPrice: number;
+  }
+  const positionColumns: Column<Position>[] = [
+    { key: 'symbol', header: 'Symbol' },
+    { key: 'quantity', header: 'Qty' },
+    { 
+      key: 'avgPrice', 
+      header: 'Avg Price', 
+      render: (v) => `$${Number(v).toFixed(2)}` 
+    },
+    { 
+      key: 'ltp', 
+      header: 'LTP', 
+      render: (v) => `$${Number(v).toFixed(2)}` 
+    },
+    { 
+      key: 'pnl', 
+      header: 'P&L', 
+      render: (v) => {
+        const val = Number(v);
+        return <span style={{ color: val >= 0 ? 'green' : 'red' }}>
+          {val >= 0 ? '+' : ''}{val.toFixed(2)}
+        </span>
+      } 
+    }
+  ]; 
+  const calculatedPositions: Position[] = Array.from(
+      tradeHistory.reduce((acc, trade) => {
+      const existing = acc.get(trade.symbol);
+      const qtyChange = trade.type === 'BUY' ? trade.quantity : -trade.quantity;
+    
+      if (existing) {
+        existing.quantity += qtyChange;
+        if (trade.type === 'BUY') {
+          // Simple weighted average calculation
+          existing.avgPrice = ((existing.avgPrice * (existing.quantity - qtyChange)) + (trade.price * qtyChange)) / existing.quantity;
+        }
+      } else {
+        acc.set(trade.symbol, {
+          symbol: trade.symbol,
+          quantity: qtyChange,
+          avgPrice: trade.price,
+        });
+      }
+      return acc;
+    }, new Map<string, GroupedTrade>()) // <--- Tell the Map what it holds
+  ).map(([,pos]: [string, GroupedTrade]) => { // <--- Explicit types instead of 'any'
+  
+    const currentStock = stocks.find(s => s.symbol === pos.symbol);
+    const ltp = currentStock?.price || 0;
+    const pnl = (ltp - pos.avgPrice) * pos.quantity;
+
+    return {
+      ...pos,
+      ltp,
+      pnl,
+      pnlPercent: pos.avgPrice > 0 ? (pnl / (pos.avgPrice * pos.quantity)) * 100 : 0
+    };
+  });
   return (
     <div style={{ maxWidth: 1100, margin: '0 auto', padding: 24, fontFamily: 'Arial, sans-serif' }}>
       <h1 style={{ color: '#1E3A8A' }}>Stock Market Dashboard</h1>
@@ -105,7 +166,12 @@ function App() {
           { key: 'date',     header: 'Date' },
         ]}
       />
- 
+      <h2 style={{ color: '#1E40AF' }}>Your Positions</h2>
+        <DataTable<Position> 
+          data={calculatedPositions} 
+          rowKey="symbol" 
+          columns={positionColumns} 
+        />
       {/* Utility Types */}
       <h2 style={{ color: '#1E40AF' }}>New Trade</h2>
       <TradeForm
