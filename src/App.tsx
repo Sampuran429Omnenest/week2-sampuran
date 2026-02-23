@@ -3,10 +3,10 @@ import './App.css';
 import  { useState } from 'react';
  
 // Data
-import { stocks, trades } from './data/stockData';
+import { sampleHoldings, stocks, trades } from './data/stockData';
  
 // Types
-import type { Position, Stock,Trade } from './types/stock.types';
+import type { Holdings, Position, Stock,Trade } from './types/stock.types';
  
 // Components
 import StockCard          from './components/StockCard';
@@ -67,6 +67,23 @@ function App() {
       } 
     }
   ]; 
+  const holdingColumns: Column<Holdings>[] = [
+    { key: 'symbol', header: 'Symbol' },
+    { key: 'quantity', header: 'Qty' },
+    { key: 'Invested', header: 'Invested', render: v => `$${Number(v).toFixed(2)}` },
+    { key: 'Value', header: 'Avg. Cost', render: v => `$${Number(v).toFixed(2)}` },
+    { key: 'CurrentValue', header: 'Current Value', render: v => `$${Number(v).toFixed(2)}` },
+    { 
+      key: 'TotalReturn', 
+      header: 'Profit/Loss', 
+      render: v => {
+        const val = Number(v);
+        return <span style={{ color: val >= 0 ? 'green' : 'red' }}>
+          {val >= 0 ? '+' : ''}${val.toFixed(2)}
+        </span>
+      } 
+    },
+  ];
   const calculatedPositions: Position[] = Array.from(
       tradeHistory.reduce((acc, trade) => {
       const existing = acc.get(trade.symbol);
@@ -172,6 +189,13 @@ function App() {
           rowKey="symbol" 
           columns={positionColumns} 
         />
+        <h2 style={{ color: '#1E40AF' }}>My Holdings</h2>
+          <DataTable<Holdings>
+          data={sampleHoldings}
+          rowKey="symbol"
+          columns={holdingColumns}
+        />
+
       {/* Utility Types */}
       <h2 style={{ color: '#1E40AF' }}>New Trade</h2>
       <TradeForm

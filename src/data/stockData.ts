@@ -1,4 +1,4 @@
-import type { Position, Stock,Trade } from "../types/stock.types";
+import type { Holdings, Position, Stock,Trade } from "../types/stock.types";
  
 export const stocks: Stock[] = [
   { id: '1', symbol: 'AAPL', name: 'Apple Inc.',
@@ -42,4 +42,71 @@ export const positions: Position[] = [
   { symbol: 'MA', quantity: 7, avgPrice: 425.00, ltp: 512.30, pnl: 611.10, pnlPercent: 20.54 },
   { symbol: 'LLY', quantity: 3, avgPrice: 710.00, ltp: 924.15, pnl: 642.45, pnlPercent: 30.16 },
   { symbol: 'AVGO', quantity: 5, avgPrice: 1350.00, ltp: 1642.80, pnl: 1464.00, pnlPercent: 21.69 }
+];
+
+export const sampleHoldings: Holdings[] = [
+  {
+    symbol: 'AAPL',
+    quantity: 10,
+    Invested: 1750.00,
+    Value: 175.00, // Purchase Price per share
+    CurrentValue: 2632.50, // quantity * current LTP ($263.25)
+    TotalReturn: 882.50
+  },
+  {
+    symbol: 'MSFT',
+    quantity: 5,
+    Invested: 1800.00,
+    Value: 360.00,
+    CurrentValue: 1981.25, // quantity * current LTP ($396.25)
+    TotalReturn: 181.25
+  },
+  {
+    symbol: 'GOOGL',
+    quantity: 8,
+    Invested: 1241.60,
+    Value: 155.20,
+    CurrentValue: 2530.56, // quantity * current LTP ($316.32)
+    TotalReturn: 1288.96
+  },
+  {
+    symbol: 'AMZN',
+    quantity: 15,
+    Invested: 2182.50,
+    Value: 145.50,
+    CurrentValue: 3133.20, // quantity * current LTP ($208.88)
+    TotalReturn: 950.70
+  },
+  {
+    symbol: 'TSLA',
+    quantity: 12,
+    Invested: 2640.00,
+    Value: 220.00,
+    CurrentValue: 4901.28, // quantity * current LTP ($408.44)
+    TotalReturn: 2261.28
+  },
+  {
+    symbol: 'NVDA',
+    quantity: 20,
+    Invested: 2200.00,
+    Value: 110.00,
+    CurrentValue: 3800.80, // quantity * current LTP ($190.04)
+    TotalReturn: 1600.80
+  },
+  {
+    symbol: 'META',
+    quantity: 6,
+    Invested: 2910.00,
+    Value: 485.00,
+    CurrentValue: 3916.08, // quantity * current LTP ($652.68)
+    TotalReturn: 1006.08
+  },
+  {
+    symbol: 'BRK.B',
+    quantity: 4,
+    Invested: 1640.00,
+    Value: 410.00,
+    CurrentValue: 1991.20, // quantity * current LTP ($497.80)
+    TotalReturn: 351.20
+  }
 ];

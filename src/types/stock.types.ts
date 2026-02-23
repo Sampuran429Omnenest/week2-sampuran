@@ -32,3 +32,11 @@ export interface Position{
     pnl:number;
     pnlPercent:number;
 }
+export interface Holdings{
+    symbol:string;
+    quantity:number;
+    Invested:number;
+    Value:number;
+    CurrentValue:number;
+    TotalReturn:number;
+}
