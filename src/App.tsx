@@ -196,12 +196,14 @@ function App() {
         <DataTable<Position> 
           data={calculatedPositions} 
           rowKey="symbol" 
+          filterKey="symbol"
           columns={positionColumns} 
         />
         <h2 style={{ color: '#1E40AF' }}>My Holdings</h2>
           <DataTable<Holdings>
           data={sampleHoldings}
           rowKey="symbol"
+          filterKey="symbol"
           columns={holdingColumns}
         />
 

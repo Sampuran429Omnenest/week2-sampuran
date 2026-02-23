@@ -27,8 +27,10 @@ function DataTable<T extends object>({
     rowKey,
     onRowClick,
     emptyMessage = 'No data found.',
+    filterKey,
 }: DataTableProps<T>) {
     const [sortConfig,setSortConfig]=useState<{key:keyof T,direction:'asc'|'desc'}|null>(null);
+    const [filterText,setFilterText]=useState<string>('');
     const handleSort=(key:keyof T)=>{
         let direction:'asc'|'desc'='asc';
         if(sortConfig?.key===key && sortConfig.direction==='asc'){
@@ -36,10 +38,22 @@ function DataTable<T extends object>({
         }
         setSortConfig({key,direction})
     }
-    const sortedData=[...data].sort((a,b)=>{
+    const filteredData=filterKey && filterText
+    ? data.filter((row)=>
+    String(row[filterKey])
+    .toLowerCase()
+    .includes(filterText.toLowerCase())
+    ) : data;
+    const sortedData=[...filteredData].sort((a,b)=>{
         if(!sortConfig) return 0;
         const aValue=a[sortConfig.key];
         const bValue=b[sortConfig.key];
+        if(typeof aValue==='string' && typeof bValue==='string'){
+            return sortConfig.direction==='asc' 
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
+        }
+        if(aValue===bValue) return 0;
         if(sortConfig.direction==='asc'){
             return aValue>bValue? 1 : -1;
         }else{
@@ -47,9 +61,28 @@ function DataTable<T extends object>({
         }
     })
     
-    if (data.length === 0) return <p style={{ textAlign: 'center', padding: 20 }}>{emptyMessage}</p>;
+    if (sortedData.length === 0) return <p style={{ textAlign: 'center', padding: 20 }}>{emptyMessage}</p>;
 
     return (
+        <div>
+            {filterKey && (
+                <div style={{marginBottom:12}}>
+                    <input 
+                    type="text"
+                    placeholder={`Filter by ${String(filterKey)}...`}
+                    value={filterText}
+                    onChange={(e : React.ChangeEvent<HTMLInputElement>)=>
+                        setFilterText(e.target.value)
+                    }
+                    style={{
+                        padding:"6px 10px",
+                        borderRadius:4,
+                        border:"1px solid  #D1D5DB",
+                        width:220
+                    }}
+                    />
+                </div>
+            )}
         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
             <thead>
                 <tr style={{ background: '#1E3A8A', color: '#fff' }}>
@@ -60,7 +93,7 @@ function DataTable<T extends object>({
                             style={{ padding: 12, textAlign: 'left', width: col.width, cursor:col.sortable? 'pointer' : 'default', userSelect:'none' }}
                         >
                             {col.header}
-                            {sortConfig?.key===col.key && (
+                            {col.sortable && sortConfig?.key===col.key && (
                                 <span>{sortConfig.direction==='asc' ? '↑' : '↓'}</span>
                             )}
                         </th>
@@ -89,6 +122,7 @@ function DataTable<T extends object>({
                 ))}
             </tbody>
         </table>
+        </div>
     );
 }
 
