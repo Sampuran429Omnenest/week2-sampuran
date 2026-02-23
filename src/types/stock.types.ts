@@ -24,3 +24,11 @@ export interface Portfolio{
     gainLoss:number;
     holdings:Stock[];
 }
+export interface Position{
+    symbol:string;
+    quantity:number;
+    avgPrice:number;
+    ltp:number;
+    pnl:number;
+    pnlPercent:number;
+}
