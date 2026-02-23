@@ -1,4 +1,6 @@
+
 import type React from "react";
+import { useState } from "react";
 
 // Column definition 
 export interface Column<T> {
@@ -7,6 +9,7 @@ export interface Column<T> {
     // T[keyof T] ensures the value matches a property of the object
     render?: (value: T[keyof T], row: T) => React.ReactNode;
     width?: number;
+    sortable?:boolean
 }
 
 interface DataTableProps<T extends object> {
@@ -24,7 +27,24 @@ function DataTable<T extends object>({
     onRowClick,
     emptyMessage = 'No data found.',
 }: DataTableProps<T>) {
-    
+    const [sortConfig,setSortConfig]=useState<{key:keyof T,direction:'asc'|'desc'}|null>(null);
+    const handleSort=(key:keyof T)=>{
+        let direction:'asc'|'desc'='asc';
+        if(sortConfig?.key===key && sortConfig.direction==='asc'){
+            direction='desc'
+        }
+        setSortConfig({key,direction})
+    }
+    const sortedData=[...data].sort((a,b)=>{
+        if(!sortConfig) return 0;
+        const aValue=a[sortConfig.key];
+        const bValue=b[sortConfig.key];
+        if(sortConfig.direction==='asc'){
+            return aValue>bValue? 1 : -1;
+        }else{
+            return aValue<bValue ? 1 :-1;
+        }
+    })
     if (data.length === 0) return <p style={{ textAlign: 'center', padding: 20 }}>{emptyMessage}</p>;
 
     return (
@@ -34,15 +54,19 @@ function DataTable<T extends object>({
                     {columns.map(col => (
                         <th 
                             key={String(col.key)} 
-                            style={{ padding: 12, textAlign: 'left', width: col.width }}
+                            onClick={()=>col.sortable && handleSort(col.key)}
+                            style={{ padding: 12, textAlign: 'left', width: col.width, cursor:col.sortable? 'pointer' : 'default', userSelect:'none' }}
                         >
                             {col.header}
+                            {sortConfig?.key===col.key && (
+                                <span>{sortConfig.direction==='asc' ? '↑' : '↓'}</span>
+                            )}
                         </th>
                     ))}
                 </tr>
             </thead>
             <tbody>
-                {data.map((row,ri) => (
+                {sortedData.map((row,ri) => (
                     <tr 
                         key={String(row[rowKey])}
                         onClick={() => onRowClick?.(row)}

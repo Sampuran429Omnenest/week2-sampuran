@@ -68,19 +68,28 @@ function App() {
     }
   ]; 
   const holdingColumns: Column<Holdings>[] = [
-    { key: 'symbol', header: 'Symbol' },
-    { key: 'quantity', header: 'Qty' },
-    { key: 'Invested', header: 'Invested', render: v => `$${Number(v).toFixed(2)}` },
-    { key: 'Value', header: 'Avg. Cost', render: v => `$${Number(v).toFixed(2)}` },
-    { key: 'CurrentValue', header: 'Current Value', render: v => `$${Number(v).toFixed(2)}` },
+    
+    { key: 'symbol', header: 'Symbol', sortable: true }, 
+    
+   
+    { key: 'quantity', header: 'Qty', sortable: true }, 
+    
+    { key: 'Invested', header: 'Invested',sortable:true, render: v => `$${Number(v).toFixed(2)}` },
+    { key: 'Value', header: 'Avg. Cost',sortable:true, render: v => `$${Number(v).toFixed(2)}` },
+    { key: 'CurrentValue', header: 'Current Value',sortable:true, render: v => `$${Number(v).toFixed(2)}` },
+    
+   
     { 
       key: 'TotalReturn', 
       header: 'Profit/Loss', 
+      sortable: true,
       render: v => {
         const val = Number(v);
-        return <span style={{ color: val >= 0 ? 'green' : 'red' }}>
-          {val >= 0 ? '+' : ''}${val.toFixed(2)}
-        </span>
+        return (
+          <span style={{ color: val >= 0 ? 'green' : 'red', fontWeight: 'bold' }}>
+            {val >= 0 ? '+' : ''}${val.toFixed(2)}
+          </span>
+        );
       } 
     },
   ];

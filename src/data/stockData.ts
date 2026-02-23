@@ -55,7 +55,7 @@ export const sampleHoldings: Holdings[] = [
   },
   {
     symbol: 'MSFT',
-    quantity: 5,
+    quantity: -5,
     Invested: 1800.00,
     Value: 360.00,
     CurrentValue: 1981.25, // quantity * current LTP ($396.25)
