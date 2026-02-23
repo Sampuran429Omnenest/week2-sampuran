@@ -41,7 +41,12 @@ export const positions: Position[] = [
   { symbol: 'WMT', quantity: 25, avgPrice: 62.10, ltp: 94.42, pnl: 808.00, pnlPercent: 52.05 },
   { symbol: 'MA', quantity: 7, avgPrice: 425.00, ltp: 512.30, pnl: 611.10, pnlPercent: 20.54 },
   { symbol: 'LLY', quantity: 3, avgPrice: 710.00, ltp: 924.15, pnl: 642.45, pnlPercent: 30.16 },
-  { symbol: 'AVGO', quantity: 5, avgPrice: 1350.00, ltp: 1642.80, pnl: 1464.00, pnlPercent: 21.69 }
+  { symbol: 'AVGO', quantity: 5, avgPrice: 1350.00, ltp: 1642.80, pnl: 1464.00, pnlPercent: 21.69 },
+  { symbol: 'NFLX', quantity: 9, avgPrice: 420.00, ltp: 488.12, pnl: 613.08, pnlPercent: 16.22 },
+  { symbol: 'ADBE', quantity: 6, avgPrice: 510.00, ltp: 548.33, pnl: 229.98, pnlPercent: 7.51 },
+  { symbol: 'INTC', quantity: 30, avgPrice: 42.00, ltp: 47.60, pnl: 168.00, pnlPercent: 13.33 },
+  { symbol: 'AMD', quantity: 18, avgPrice: 105.00, ltp: 121.45, pnl: 296.10, pnlPercent: 15.66 },
+  { symbol: 'PYPL', quantity: 12, avgPrice: 68.00, ltp: 73.90, pnl: 70.80, pnlPercent: 8.68 },
 ];
 
 export const sampleHoldings: Holdings[] = [

@@ -193,17 +193,19 @@ function App() {
         ]}
       />
       <h2 style={{ color: '#1E40AF' }}>Your Positions</h2>
-        <DataTable<Position> 
-          data={calculatedPositions} 
-          rowKey="symbol" 
+        <DataTable<Position>
+          data={calculatedPositions}
+          rowKey="symbol"
           filterKey="symbol"
-          columns={positionColumns} 
+          pageSize={5}
+          columns={positionColumns}
         />
         <h2 style={{ color: '#1E40AF' }}>My Holdings</h2>
           <DataTable<Holdings>
           data={sampleHoldings}
           rowKey="symbol"
           filterKey="symbol"
+          pageSize={3}
           columns={holdingColumns}
         />
 
