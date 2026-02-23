@@ -32,17 +32,52 @@ const SearchBar:React.FC<SearchBarProps>=({
         onFilterChange(e.target.value);
     }
     return(
-        <div>
+        <div
+        style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            justifyContent: "center",
+            marginBottom: 30,
+            flexWrap: "wrap",
+        }}
+        >
             <input 
             value={query}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
-            style={{flex:1,padding:8,borderRadius:4}}
+            style={{
+                padding: "10px 14px",
+                borderRadius: 8,
+                border: "1px solid #D1D5DB",
+                width: 260,
+                fontSize: 14,
+                outline: "none",
+            }}
             />
             <button
-            onClick={handleClear}>Clear</button>
-            <select onChange={handleSectorChange}>
+            onClick={handleClear}
+            style={{
+                padding: "10px 16px",
+                borderRadius: 8,
+                border: "none",
+                background: "#1E40AF",
+                color: "#fff",
+                cursor: "pointer",
+                fontWeight: 500,
+            }}
+            >Clear
+            </button>
+            <select onChange={handleSectorChange}
+            style={{
+                padding: "10px 14px",
+                borderRadius: 8,
+                border: "1px solid #D1D5DB",
+                fontSize: 14,
+                background: "#fff",
+            }}
+            >
                 <option value="">Sectors</option>
                 <option value="Technology">Technology</option>
                 <option value="Finance">Finance</option>

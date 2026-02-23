@@ -93,9 +93,21 @@ function DataTable<T extends object>({
                     />
                 </div>
             )}
-        <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+        <table
+        style={{
+            width: '100%',
+            borderCollapse: 'separate',
+            borderSpacing: '0 8px', // 🔥 row spacing
+            marginTop: '16px',
+        }}
+        >
             <thead>
-                <tr style={{ background: '#1E3A8A', color: '#fff' }}>
+                <tr
+                style={{
+                background: '#fff',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.04)',
+            }}
+                >
                     {columns.map(col => (
                         <th 
                             key={String(col.key)} 

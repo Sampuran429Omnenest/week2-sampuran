@@ -16,14 +16,33 @@ export const stocks: Stock[] = [
   { id: '5', symbol: 'JPM',  name: 'JPMorgan Chase',
     price: 196.40, change: 1.05, changePct: 0.54,
     volume: 8_900_000, marketCap: 568_000_000_000, sector: 'Finance' },
-];
+  { id: '6', symbol: 'NVDA', name: 'NVIDIA Corp.',
+    price: 190.04, change: 3.15, changePct: 1.69,
+    volume: 41_200_000, marketCap: 1_200_000_000_000, sector: 'Technology' },
+
+  { id: '7', symbol: 'META', name: 'Meta Platforms',
+    price: 652.68, change: -5.40, changePct: -0.82,
+    volume: 12_500_000, marketCap: 850_000_000_000, sector: 'Technology' },
+
+  { id: '8', symbol: 'AMZN', name: 'Amazon.com Inc.',
+    price: 208.88, change: 2.33, changePct: 1.13,
+    volume: 25_700_000, marketCap: 1_600_000_000_000, sector: 'Technology' },
+
+  { id: '9', symbol: 'NFLX', name: 'Netflix Inc.',  
+    price: 488.12, change: -3.80, changePct: -0.77,
+    volume: 6_300_000, marketCap: 220_000_000_000, sector: 'Technology' },
+
+  { id: '10', symbol: 'AMD', name: 'Advanced Micro Devices',
+    price: 121.45, change: 1.25, changePct: 1.04,
+    volume: 30_400_000, marketCap: 195_000_000_000, sector: 'Technology' },
+  ];
  
 export const trades: Trade[] = [
   { id: 't1', stockId: '1', symbol: 'AAPL', type: 'BUY',
     quantity: 10, price: 175.00, date: '2024-01-15' },
   { id: 't2', stockId: '3', symbol: 'MSFT', type: 'BUY',
     quantity: 5,  price: 360.00, date: '2024-02-20' },
-  { id: 't3', stockId: '4', symbol: 'TSLA', type: 'SELL',
+  { id: 't3', stockId: '4', symbol: 'TSLA', type: 'BUY',
     quantity: 8,  price: 265.00, date: '2024-03-10' },
 ];
 
