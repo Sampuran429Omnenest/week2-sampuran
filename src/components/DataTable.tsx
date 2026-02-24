@@ -25,7 +25,7 @@ interface DataTableProps<T extends object> {
 function DataTable<T extends object>({
     data,
     columns,
-    rowKey,
+    // rowKey,
     onRowClick,
     emptyMessage = 'No data found.',
     filterKey,
@@ -42,6 +42,7 @@ function DataTable<T extends object>({
         if(sortConfig?.key===key && sortConfig.direction==='asc'){
             direction='desc'
         }
+       
         setSortConfig({key,direction})
     }
     const filteredData=filterKey && filterText
@@ -54,6 +55,7 @@ function DataTable<T extends object>({
         if(!sortConfig) return 0;
         const aValue=a[sortConfig.key];
         const bValue=b[sortConfig.key];
+        
         if(typeof aValue==='string' && typeof bValue==='string'){
             return sortConfig.direction==='asc' 
             ? aValue.localeCompare(bValue)
@@ -113,7 +115,8 @@ function DataTable<T extends object>({
             <tbody>
                 {sortedData.map((row,ri) => (
                     <tr 
-                        key={String(row[rowKey])}
+                        // key={String(row[rowKey])}
+                        key={crypto.randomUUID()}
                         onClick={() => onRowClick?.(row)}
                         style={{ 
                             background:ri%2===0 ? '#fff':'#F8FAFC',

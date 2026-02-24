@@ -7,3 +7,6 @@ added exercise 7.3 sorting logic
 added exercise 7.2 color coded p and l
 added exercise 7.5 filtering logic
 added exercise 7.6 pagination logic
+
+day7(24th feb) : implemented inifinite scrolling,data virtualization,error boundaries and suspense boundary and 
+added the feature logic in features folder
