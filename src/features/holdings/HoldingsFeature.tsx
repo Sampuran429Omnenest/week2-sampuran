@@ -37,7 +37,12 @@ const pieData = holdings.map(h => ({
     useInfiniteScroll(holdings, 10);
   return (
     <>
-      <h2 style={{ color: '#1E40AF' }}>Holdings</h2>
+       <h2 style={{ color: '#1E40AF' }}>
+        Holdings
+        <span style={{ fontSize: 14, fontWeight: 'normal', marginLeft: 12 }}>
+          {visibleItems.length} of {holdings.length}
+        </span>
+      </h2>
       <DataTable<Holdings>
         data={visibleItems}
         rowKey="symbol"
