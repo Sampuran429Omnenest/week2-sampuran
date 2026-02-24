@@ -3,6 +3,7 @@ import React from 'react';
 import type { Holdings } from '../../types/stock.types';
 import DataTable   from '../../components/DataTable';
  import { PortfolioPieChart } from '../../components/charts/PortfolioPieChart';
+ import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 interface HoldingsFeatureProps {
   holdings: Holdings[];
 }
@@ -32,11 +33,13 @@ const pieData = holdings.map(h => ({
     ? (h.CurrentValue / totalValue) * 100
     : 0
 }));
+  const { visibleItems, bottomRef, hasMore } =
+    useInfiniteScroll(holdings, 10);
   return (
     <>
       <h2 style={{ color: '#1E40AF' }}>Holdings</h2>
       <DataTable<Holdings>
-        data={holdings}
+        data={visibleItems}
         rowKey="symbol"
         filterKey="symbol"
         pageSize={10}
@@ -54,6 +57,7 @@ const pieData = holdings.map(h => ({
           },
         ]}
       />
+      {hasMore && <div ref={bottomRef} />}
       <PortfolioPieChart data={pieData} />
     </>
   );

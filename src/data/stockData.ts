@@ -113,6 +113,7 @@ export const positions: Position[] = [
 ];
 
 export const sampleHoldings: Holdings[] = [
+  // --- Your original 8 ---
   {
     symbol: 'AAPL',
     quantity: 10,
@@ -176,5 +177,87 @@ export const sampleHoldings: Holdings[] = [
     Value: 410.00,
     CurrentValue: 1991.20, // quantity * current LTP ($497.80)
     TotalReturn: 351.20
+  },
+
+  // --- 10 New Holdings ---
+  {
+    symbol: 'JNJ',
+    quantity: 10,
+    Invested: 1450.00,
+    Value: 145.00,
+    CurrentValue: 1567.50, // quantity * current LTP ($156.75)
+    TotalReturn: 117.50
+  },
+  {
+    symbol: 'WMT',
+    quantity: 20,
+    Invested: 3000.00,
+    Value: 150.00,
+    CurrentValue: 3304.00, // quantity * current LTP ($165.20)
+    TotalReturn: 304.00
+  },
+  {
+    symbol: 'PG',
+    quantity: 15,
+    Invested: 2100.00,
+    Value: 140.00,
+    CurrentValue: 2233.50, // quantity * current LTP ($148.90)
+    TotalReturn: 133.50
+  },
+  {
+    symbol: 'XOM',
+    quantity: 25,
+    Invested: 2750.00,
+    Value: 110.00,
+    CurrentValue: 2561.25, // quantity * current LTP ($102.45)
+    TotalReturn: -188.75 // Representing a loss
+  },
+  {
+    symbol: 'UNH',
+    quantity: 5,
+    Invested: 2500.00,
+    Value: 500.00,
+    CurrentValue: 2700.50, // quantity * current LTP ($540.10)
+    TotalReturn: 200.50
+  },
+  {
+    symbol: 'HD',
+    quantity: 8,
+    Invested: 2400.00,
+    Value: 300.00,
+    CurrentValue: 2644.00, // quantity * current LTP ($330.50)
+    TotalReturn: 244.00
+  },
+  {
+    symbol: 'BAC',
+    quantity: 100,
+    Invested: 2800.00,
+    Value: 28.00,
+    CurrentValue: 3425.00, // quantity * current LTP ($34.25)
+    TotalReturn: 625.00
+  },
+  {
+    symbol: 'MA',
+    quantity: 6,
+    Invested: 2280.00,
+    Value: 380.00,
+    CurrentValue: 2494.80, // quantity * current LTP ($415.80)
+    TotalReturn: 214.80
+  },
+  {
+    symbol: 'CVX',
+    quantity: 12,
+    Invested: 1860.00,
+    Value: 155.00,
+    CurrentValue: 1747.20, // quantity * current LTP ($145.60)
+    TotalReturn: -112.80 // Representing another loss
+  },
+  {
+    symbol: 'KO',
+    quantity: 30,
+    Invested: 1650.00,
+    Value: 55.00,
+    CurrentValue: 1794.00, // quantity * current LTP ($59.80)
+    TotalReturn: 144.00
   }
 ];
