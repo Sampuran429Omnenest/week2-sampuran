@@ -36,7 +36,7 @@ const pieData = holdings.map(h => ({
   const { visibleItems, bottomRef, hasMore } =
     useInfiniteScroll(holdings, 10);
   return (
-    <>
+    <div style={{marginBottom: '5rem'}}>
        <h2 style={{ color: '#1E40AF' }}>
         Holdings
         <span style={{ fontSize: 14, fontWeight: 'normal', marginLeft: 12 }}>
@@ -64,7 +64,7 @@ const pieData = holdings.map(h => ({
       />
       {hasMore && <div ref={bottomRef} />}
       <PortfolioPieChart data={pieData} />
-    </>
+    </div>
   );
 };
  

@@ -25,7 +25,7 @@ const TradeFeature: React.FC<TradeFeatureProps> = ({
  
   return (
     <>
-      <h2 style={{ color: '#1E40AF', marginTop: 32 }}>
+      <h2 style={{ color: '#1E40AF', marginTop: 0 }}>
         Trade History
         <span style={{ fontSize: 14, fontWeight: 'normal', color: '#6B7280', marginLeft: 12 }}>
           {visibleItems.length} of {tradeHistory.length} shown

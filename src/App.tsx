@@ -76,7 +76,9 @@ function App() {
       <h1 style={{ color: '#1E3A8A' }}>Stock Market Dashboard</h1>
 
 
-      <MarketTicker stocks={stocks} />
+      <div style={{marginBottom:'2rem'}}>
+        <MarketTicker stocks={stocks} />
+      </div>
  
       {/* ── FEATURE 1: Live Quotes — uses BOTH skeletons ── */}
       <SuspenseBoundary
