@@ -10,3 +10,5 @@ added exercise 7.6 pagination logic
 
 day7(24th feb) : implemented inifinite scrolling,data virtualization,error boundaries and suspense boundary and 
 added the feature logic in features folder
+
+day 8(25th feb) : implemented the zustand global state management and implemented it in the stocks comparison and the positions comparison feature in sessions

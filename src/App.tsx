@@ -13,6 +13,8 @@ import SuspenseBoundary from './boundaries/SuspenseBoundary';
 import TableSkeleton    from './skeletons/TableSkeleton';
 import CardGridSkeleton from './skeletons/CardGridSkeleton';
 import FormSkeleton     from './skeletons/FormSkeleton';
+import StockComparePanel from './components/StockComparePanel';
+import PositionComparePanel from './components/PositionComparePanel';
 // WHY NOT lazy? These ARE the fallback UI.
 // They must exist BEFORE the real components arrive.
 
@@ -135,7 +137,8 @@ function App() {
           onSubmitTrade={handleNewTrade}
         />
       </SuspenseBoundary>
- 
+      <StockComparePanel/>
+      <PositionComparePanel/>
     </div>
   );
 }
