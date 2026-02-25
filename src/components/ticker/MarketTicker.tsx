@@ -1,10 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react'; // Added useState
 import type { Stock } from '../../types/stock.types';
+
 interface Props {
   stocks: Stock[];
 }
 
 const MarketTicker: React.FC<Props> = ({ stocks }) => {
+  // Track hover state
+  const [isPaused, setIsPaused] = useState(false);
+
   const duplicated = useMemo(
     () => [...stocks, ...stocks],
     [stocks]
@@ -21,11 +25,23 @@ const MarketTicker: React.FC<Props> = ({ stocks }) => {
         `}
       </style>
 
-      <div style={{ overflow: 'hidden', whiteSpace: 'nowrap', background: '#111827', padding: '8px 0' }}>
+      <div 
+        onMouseEnter={() => setIsPaused(true)}  // Pause on enter
+        onMouseLeave={() => setIsPaused(false)} // Resume on leave
+        style={{ 
+          overflow: 'hidden', 
+          whiteSpace: 'nowrap', 
+          background: '#111827', 
+          padding: '8px 0',
+          cursor: 'pointer' 
+        }}
+      >
         <div
           style={{
             display: 'inline-block',
-            animation: 'scrollTicker 25s linear infinite'
+            animation: 'scrollTicker 60s linear infinite',
+            // This is the key: it pauses the animation instantly
+            animationPlayState: isPaused ? 'paused' : 'running' 
           }}
         >
           {duplicated.map((stock, index) => {
