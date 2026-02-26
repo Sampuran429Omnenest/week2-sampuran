@@ -1,14 +1,10 @@
 import React, { useMemo, useState } from 'react'; // Added useState
-import type { Stock } from '../../types/stock.types';
+import { useStockStore } from '../../hooks/useStockStore';
 
-interface Props {
-  stocks: Stock[];
-}
-
-const MarketTicker: React.FC<Props> = ({ stocks }) => {
+const MarketTicker: React.FC = () => {
   // Track hover state
   const [isPaused, setIsPaused] = useState(false);
-
+  const stocks=useStockStore((s)=>s.allStocks);
   const duplicated = useMemo(
     () => [...stocks, ...stocks],
     [stocks]

@@ -52,6 +52,9 @@ import FormSkeleton     from './skeletons/FormSkeleton';
 //   2. It must be ready to render the moment the user adds a second stock to
 //      compareList — a Suspense boundary would show a flash of loading state
 import StockComparePanel from './components/StockComparePanel';
+import MarketTicker from './components/ticker/MarketTicker';
+import PositionComparePanel from './components/PositionComparePanel';
+import HoldingComparePanel from './components/HoldingComparePanel';
 
 // ── Lazy feature imports (unchanged from Module 2) ───────────────────────────
 // Each feature is code-split into its own chunk.
@@ -83,6 +86,10 @@ function App() {
       }}
     >
       <h1 style={{ color: '#1E3A8A' }}>Stock Market Dashboard</h1>
+
+       <div style={{marginBottom:'2rem'}}>
+        <MarketTicker/>
+      </div>
 
       {/* ── FEATURE 1: Live Quotes ──────────────────────────────────────── */}
       {/* Uses TWO skeleton types: card grid + table                         */}
@@ -147,7 +154,8 @@ function App() {
       {/* Auto-appears the moment the user toggles a second StockCard.       */}
       {/* No SuspenseBoundary needed — this is an eager (non-lazy) import.   */}
       <StockComparePanel />
-
+      <PositionComparePanel/>
+      <HoldingComparePanel/>
     </div>
   );
 }
