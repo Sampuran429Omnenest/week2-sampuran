@@ -1,46 +1,57 @@
 import type React from "react";
 import type { Stock } from "../types/stock.types";
 import { useEffect, useState } from "react";
+import usePortfolioStore from "../hooks/usePortfolioStore";
 
-interface PortfolioState{
-    holdings:Stock[];
-    totalValue:number;
-    gainLoss:number;
-    isLoading:boolean;
-    error:string|null;
-}
+// interface PortfolioState{
+//     holdings:Stock[];
+//     totalValue:number;
+//     gainLoss:number;
+//     isLoading:boolean;
+//     error:string|null;
+// }
 interface PortfolioSummaryProps{
     availableStocks:Stock[];
 }
 const PortfolioSummary:React.FC<PortfolioSummaryProps>=({availableStocks})=>{
-    const [portfolio,setPortfolio]=useState<PortfolioState>({
-        holdings:[],
-        totalValue:0,
-        gainLoss:0,
-        isLoading:true,
-        error:null
-    });
+    // const [portfolio,setPortfolio]=useState<PortfolioState>({
+    //     holdings:[],
+    //     totalValue:0,
+    //     gainLoss:0,
+    //     isLoading:true,
+    //     error:null
+    // });
+    const holdings=usePortfolioStore((s)=>s.holdings);
+    const totalValue = usePortfolioStore((s) => s.totalValue);
+    const gainLoss=usePortfolioStore((s)=>s.gainLoss);
+    const isLoading=usePortfolioStore((s)=>s.isLoading);
+    const error=usePortfolioStore((s)=>s.error);
+    const loadPortfolio = usePortfolioStore((s) => s.loadPortfolio);
     const [selectedSector,setSelectedSector]=useState<string>('All');
-    
-    useEffect(()=>{
-        setTimeout(()=>{
-            const topThree=availableStocks.slice(0,3);
-            const totalValue=topThree.reduce((sum,s)=>sum+s.price*10,0);
-            const totalCost=topThree.reduce((sum,s)=>sum+(s.price-s.change)*10,0);
-            setPortfolio({
-                holdings:topThree,
-                totalValue,
-                gainLoss:totalValue-totalCost,
-                isLoading:false,
-                error:null,
-            })
-        },800)
-    },[availableStocks]);
-    const filtered=selectedSector==='All'
-    ? portfolio.holdings
-    : portfolio.holdings.filter(s=>s.sector===selectedSector);
-    if(portfolio.isLoading) return <p>Loading portfolio...</p>;
-    if(portfolio.error) return <p>Error :{portfolio.error}</p>;
+    // useEffect(()=>{
+    //     setTimeout(()=>{
+    //         const topThree=availableStocks.slice(0,3);
+    //         const totalValue=topThree.reduce((sum,s)=>sum+s.price*10,0);
+    //         const totalCost=topThree.reduce((sum,s)=>sum+(s.price-s.change)*10,0);
+    //         setPortfolio({
+    //             holdings:topThree,
+    //             totalValue,
+    //             gainLoss:totalValue-totalCost,
+    //             isLoading:false,
+    //             error:null,
+    //         })
+    //     },800)
+    // },[availableStocks]);
+    useEffect(() => {
+    if (availableStocks && availableStocks.length > 0) {
+      loadPortfolio(availableStocks);
+    }
+  }, [availableStocks, loadPortfolio]);
+    const filtered=selectedSector==='All' ?
+    holdings
+    : holdings.filter(s=>s.sector===selectedSector);
+    if(isLoading) return <p>Loading portfolio...</p>;
+    if(error) return <p>Error :{error}</p>;
     return(
         <div
         style={{
@@ -55,17 +66,17 @@ const PortfolioSummary:React.FC<PortfolioSummaryProps>=({availableStocks})=>{
         >
             <h2 style={{ marginBottom: 20 }}>Portfolio Summary</h2>
             <div style={{ fontSize: 20, fontWeight: 600, marginBottom: 10 }}>
-                ${portfolio.totalValue.toLocaleString()}
+                ${totalValue.toLocaleString()}
             </div>
             <div
       style={{
-        color: portfolio.gainLoss >= 0 ? "#16A34A" : "#DC2626",
+        color: gainLoss >= 0 ? "#16A34A" : "#DC2626",
         fontWeight: 600,
         marginBottom: 25,
       }}
     >
-      {portfolio.gainLoss >= 0 ? "+" : ""}
-      ${portfolio.gainLoss.toFixed(2)}
+      {gainLoss >= 0 ? "+" : ""}
+      ${gainLoss.toFixed(2)}
     </div>
 
     <select

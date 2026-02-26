@@ -4,18 +4,11 @@ import DataTable from '../../components/DataTable';
 import useInfiniteScroll from '../../hooks/useInfiniteScroll';
 import { usePositionStore } from '../../hooks/usePositionStore';
 
-interface PositionsFeatureProps {
-  positions: Position[];
-}
-
-/** 
- * Sub-component for the Compare button to follow "Rules of Hooks" 
- * and optimize performance per row.
+/**
+ * COMPONENT: Compare Toggle
  */
 const CompareButton: React.FC<{ record: Position }> = ({ record }) => {
   const toggleCompare = usePositionStore((s) => s.toggleCompare);
-  
-  // Select only the boolean status for this specific symbol
   const isComparing = usePositionStore((s) => 
     s.compareList.some((p) => p.symbol === record.symbol)
   );
@@ -32,11 +25,52 @@ const CompareButton: React.FC<{ record: Position }> = ({ record }) => {
         fontSize: 11,
         cursor: 'pointer',
         fontWeight: isComparing ? 'bold' : 'normal',
-        minWidth: 80
+        minWidth: 85
       }}
     >
-      {isComparing ? '✓ Compare' : '+ Compare'}
+      {isComparing ? '✓ Comparing' : '+ Compare'}
     </button>
+  );
+};
+
+const ActionButtons: React.FC<{ record: Position }> = ({ record }) => {
+  const removePosition = usePositionStore((s) => s.removePosition);
+  const updatePosition = usePositionStore((s) => s.updatePosition);
+  const addPosition = usePositionStore((s) => s.addPosition);
+
+  return (
+    <div style={{ display: 'flex', gap: 6 }}>
+      {/* UPDATE/ADD LOGIC: Buy 1 more share at current LTP */}
+      <button
+        title="Buy 1 More"
+        onClick={() => addPosition({ ...record, quantity: 1, avgPrice: record.ltp })}
+        style={{ background: '#DCFCE7', color: '#166534', border: '1px solid #BBF7D0', borderRadius: 4, padding: '2px 8px', cursor: 'pointer' }}
+      >
+        +1
+      </button>
+
+      {/* UPDATE LOGIC: Manually reset quantity to 0 via updatePosition */}
+      <button
+        title="Reset Qty"
+        onClick={() => updatePosition(record.symbol, { quantity: 0 })}
+        style={{ background: '#FEF9C3', color: '#854D0E', border: '1px solid #FEF08A', borderRadius: 4, padding: '2px 8px', cursor: 'pointer' }}
+      >
+        ↺
+      </button>
+
+      {/* REMOVE LOGIC: Delete completely */}
+      <button
+        title="Delete Position"
+        onClick={() => {
+          if(window.confirm(`Remove ${record.symbol} from portfolio?`)) {
+            removePosition(record);
+          }
+        }}
+        style={{ background: '#FEE2E2', color: '#991B1B', border: '1px solid #FECACA', borderRadius: 4, padding: '2px 8px', cursor: 'pointer' }}
+      >
+        🗑
+      </button>
+    </div>
   );
 };
 
@@ -53,16 +87,16 @@ function pnlCell(value: unknown, suffix: string = ''): React.ReactNode {
   );
 }
 
-const PositionsFeature: React.FC<PositionsFeatureProps> = ({ positions }) => {
-  // Infinite scroll logic
-  const { visibleItems, bottomRef, hasMore } = useInfiniteScroll(positions, 10);
+const PositionsFeature: React.FC = () => {
+  const globalPositions = usePositionStore((s) => s.positions);
+  const { visibleItems, bottomRef, hasMore } = useInfiniteScroll(globalPositions, 10);
 
   return (
     <>
-      <h2 style={{ color: '#1E40AF' }}>
-        Positions
-        <span style={{ fontSize: 14, fontWeight: 'normal', marginLeft: 12 }}>
-          {visibleItems.length} of {positions.length}
+      <h2 style={{ color: '#1E40AF', display: 'flex', alignItems: 'center', marginBottom: 20 }}>
+        Portfolio Positions
+        <span style={{ fontSize: 14, fontWeight: 'normal', marginLeft: 12, color: '#6B7280' }}>
+          {globalPositions.length} Assets Held
         </span>
       </h2>
 
@@ -78,31 +112,35 @@ const PositionsFeature: React.FC<PositionsFeatureProps> = ({ positions }) => {
             key: 'avgPrice', 
             header: 'Avg Price', 
             sortable: true,
-            render: function(value) { return '$' + Number(value).toFixed(2); }
+            render: (v) => '$' + Number(v).toFixed(2) 
           },
           { 
             key: 'ltp', 
             header: 'LTP', 
             sortable: true,
-            render: function(value) { return '$' + Number(value).toFixed(2); }
+            render: (v) => '$' + Number(v).toFixed(2) 
           },
           { 
             key: 'pnl', 
             header: 'P&L', 
             sortable: true,
-            render: function(value) { return pnlCell(value); }
+            render: (v) => pnlCell(v) 
           },
           { 
             key: 'pnlPercent', 
             header: 'P&L %', 
             sortable: true,
-            render: function(value) { return pnlCell(value, '%'); }
+            render: (v) => pnlCell(v, '%') 
           },
-          // ── NEW: Compare Action Column ──
           {
             key: 'symbol',
             header: 'Compare',
-            render: (_val, record) => <CompareButton record={record} />
+            render: (_, record) => <CompareButton record={record} />
+          },
+          {
+            key: 'symbol',
+            header: 'Actions',
+            render: (_, record) => <ActionButtons record={record} />
           }
         ]}
       />

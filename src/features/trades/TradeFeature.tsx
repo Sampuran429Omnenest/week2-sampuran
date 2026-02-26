@@ -1,25 +1,26 @@
 
 import React from 'react';
-import type { Trade, Stock } from '../../types/stock.types';
+import type { Trade } from '../../types/stock.types';
 import DataTable        from '../../components/DataTable';
 import TradeForm        from '../../components/TradeForm';
- 
+import useTradeStore from '../../hooks/useTradeStore';
+import { useStockStore } from '../../hooks/useStockStore';
+
 // Trade but WITHOUT id and date (the form user hasn't submitted yet)
-type NewTradeInput = Omit<Trade, 'id' | 'date'>;
+// type NewTradeInput = Omit<Trade, 'id' | 'date'>;
  
-interface TradeFeatureProps {
-  tradeHistory:  Trade[];
-  stocks:        Stock[];
-  selectedStock: Stock | null;
-  onSubmitTrade: (input: NewTradeInput) => void;
-}
+// interface TradeFeatureProps {
+//   // tradeHistory:  Trade[];
+//   stocks:        Stock[];
+//   selectedStock: Stock | null;
+//   // onSubmitTrade: (input: NewTradeInput) => void;
+// }
  
-const TradeFeature: React.FC<TradeFeatureProps> = ({
-  tradeHistory,
-  stocks,
-  selectedStock,
-  onSubmitTrade,
-}) => {
+const TradeFeature: React.FC = ()=>{
+  const tradeHistory=useTradeStore((s)=>s.tradeHistory);
+  const addTrade=useTradeStore((s)=>s.addTrade);
+  const stocks=useStockStore((s)=>s.allStocks);
+  const selectedStock=useStockStore((s)=>s.selectedStock);
   return (
     <>
       <h2 style={{ color: '#1E40AF', marginTop: 32 }}>Trade History</h2>
@@ -34,8 +35,8 @@ const TradeFeature: React.FC<TradeFeatureProps> = ({
             render: function(value) {
               // BUY = green text, SELL = red text
               const isBuy   = value === 'BUY';
-              const colour  = isBuy ? '#166534' : '#991B1B';
-              return <strong style={{ color: colour }}>{String(value)}</strong>;
+              const color  = isBuy ? '#166534' : '#991B1B';
+              return <strong style={{ color: color }}>{String(value)}</strong>;
             }
           },
           { key: 'quantity', header: 'Qty',     sortable: true },
@@ -49,7 +50,7 @@ const TradeFeature: React.FC<TradeFeatureProps> = ({
       <h2 style={{ color: '#1E40AF', marginTop: 32 }}>Place a Trade</h2>
       <TradeForm
         stocks={stocks}
-        onSubmitTrade={onSubmitTrade}
+        onSubmitTrade={addTrade}
         initialValues={selectedStock ?? {}}
       />
     </>

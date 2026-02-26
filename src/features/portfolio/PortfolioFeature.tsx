@@ -1,17 +1,14 @@
 
 import React from 'react';
-import type { Stock }         from '../../types/stock.types';
 import PortfolioSummary  from '../../components/PortfolioSummary';
+import { useStockStore } from '../../hooks/useStockStore';
  
-interface PortfolioFeatureProps {
-  availableStocks: Stock[];  // passed straight through to PortfolioSummary
-}
- 
-const PortfolioFeature: React.FC<PortfolioFeatureProps> = ({ availableStocks }) => {
+const PortfolioFeature: React.FC = () => {
+  const stocks=useStockStore((s)=>s.allStocks);
   return (
     <>
       <h2 style={{ color: '#1E40AF' }}>Portfolio Summary</h2>
-      <PortfolioSummary availableStocks={availableStocks} />
+      <PortfolioSummary availableStocks={stocks} />
     </>
   );
 };
